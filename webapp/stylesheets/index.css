@@ -1,0 +1,27 @@
+#banner {
+	float: left;
+	margin-left: 5%;
+	margin-right: 5%;
+	
+	width: 90%;
+	padding: 10px;
+
+}
+.wrapper {
+	width: 800px;
+	margin:0 auto;
+}
+#map {	
+	width:	420px;
+	height: auto;
+
+	background-color: rgb(240, 240, 240);
+}
+#checkboxlist {
+	padding-top: 50px;
+	width:	360px;
+	height: 506px;
+	
+	vertical-align: top;
+	background-color: rgb(240, 240, 240);
+}

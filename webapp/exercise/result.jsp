@@ -7,6 +7,9 @@
 <title>Insert title here</title>
 </head>
 <body>
-이제, 사진이 뜹니다.
+당신의 ip: ${ui.IP} <br>
+이름: ${ui.userName} <br>
+키: ${ui.height} <br>
+등록되었습니다.
 </body>
 </html>
