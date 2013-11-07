@@ -1,6 +1,7 @@
 //<![CDATA[
 	function loadDocs() {
-		svg = document.getElementById("map").getSVGDocument();
+		map = document.getElementById("map").getSVGDocument();
+		zoom = document.getElementById("zoom").getSVGDocument();
 		cbx = document.getElementById("checkboxlist").contentDocument;
 	}
 	function setOptions() {
@@ -11,13 +12,21 @@
 	}
 
 	function setSVGOption() {
-		var svgCityList = svg.getElementById("cities").getElementsByTagName("path");
+		var mapCityList = map.getElementById("cities").getElementsByTagName("path");
 
-		for (var i = 0; i < svgCityList.length; i++) {
-			svgCityList[i].onclick = cityClick;
-			svgCityList[i].onmouseover = cityOver;
-			svgCityList[i].onmouseout = cityOut;
-			svgCityList[i].choosen = "false";
+		for (var i = 0; i < mapCityList.length; i++) {
+			mapCityList[i].onclick = cityClick;
+			mapCityList[i].onmouseover = cityOver;
+			mapCityList[i].onmouseout = cityOut;
+			mapCityList[i].choosen = "false";
+		}
+		var zoomCityList = zoom.getElementById("zoomcities").getElementsByTagName("path");
+
+		for (var i = 0; i < zoomCityList.length; i++) {
+			zoomCityList[i].onclick = cityClick;
+			zoomCityList[i].onmouseover = cityOver;
+			zoomCityList[i].onmouseout = cityOut;
+			zoomCityList[i].choosen = "false";
 		}
 	}
 	function setCheckboxOption() {
@@ -60,22 +69,28 @@
 		svgRegionInit();
 	}
 	function svgRegionInit() {
-		var svgRegionList = svg.getElementById("regions").getElementsByTagName("path");
-		for (var i = 0; i < svgRegionList.length; i++) {
-			svgRegionList[i].setAttribute("fill-opacity", 0);
+		var mapRegionList = map.getElementById("regions").getElementsByTagName("path");
+		for (var i = 0; i < mapRegionList.length; i++) {
+			mapRegionList[i].setAttribute("fill-opacity", 0);
+		}
+		var zoomRegionList = zoom.getElementById("zoomregions").getElementsByTagName("path");
+		for (var i = 0; i < zoomRegionList.length; i++) {
+			zoomRegionList[i].setAttribute("fill-opacity", 0);
 		}
 	}
 
 	function categoryOver(evt) {
 		var evtCategory = evt.target;
 		var evtRegionId = evtCategory.id.split("_")[1];
-		var evtRegion = svg.getElementById("region_"+evtRegionId);
+		var evtRegion = map.getElementById("region_"+evtRegionId);
+		var evtZoomRegion = zoom.getElementById("zoomregion_"+evtRegionId);
 		var evtCheckboxGroup = cbx.getElementById("cbgroup_"+evtRegionId);
 		
 		cbxCatInit();
 		evtCheckboxGroup.style.display = "block";
 		evtCategory.style.backgroundColor = "beige";
 		evtRegion.setAttribute("fill-opacity", 1);
+		evtZoomRegion.setAttribute("fill-opacity", 1);
 	}
 
 	function cityClick(evt) {
@@ -88,23 +103,29 @@
 		var label = checkbox.parentNode;
 
 		var pathId = "city_" + evtCityId;
-		var path = svg.getElementById(pathId);
+		var path = map.getElementById(pathId);
+		var zoomPath = zoom.getElementById("zoom"+pathId);
 
 		if (path.getAttribute("choosen") == "true") {
 			path.setAttribute("choosen", "false");
+			zoomPath.setAttribute("choosen", "false");
 			checkbox.checked = false;
 			label.style.backgroundColor = "yellow";
 			path.setAttribute("fill","yellow");
+			zoomPath.setAttribute("fill","yellow");
 		}
 		else {
 			path.setAttribute("choosen", "true");
+			zoomPath.setAttribute("choosen", "true");
 			checkbox.checked = true;
 			label.style.backgroundColor = "orange";
 			path.setAttribute("fill-opacity","1");
 			path.setAttribute("fill","orange");
+			zoomPath.setAttribute("fill-opacity","1");
+			zoomPath.setAttribute("fill","orange");
 		}
 
-//		var areaText = svg.getElementById("totalarea").firstChild;
+//		var areaText = map.getElementById("totalarea").firstChild;
 //		areaText.nodeValue = getVisitedAreaRatio().toString()+"%";
 	}
 	function cityOver(evt) {
@@ -115,20 +136,23 @@
 		var label = checkbox.parentNode;
 
 		var pathId = "city_" + evtCityId;
-		var path = svg.getElementById(pathId);
+		var path = map.getElementById(pathId);
+		var zoomPath = zoom.getElementById("zoom"+pathId);
 
 		var categoryId = "cat_"+ path.getAttribute("region");
 		var category = cbx.getElementById(categoryId);
 
 		var name = label.getAttribute("name");
-		var text = svg.getElementById("location").firstChild;
+		var text = map.getElementById("location").firstChild;
 		text.nodeValue = name;
 
 		if (checkbox.checked) {
 			path.setAttribute("fill","orange");
+			zoomPath.setAttribute("fill","orange");
 			checkbox.parentNode.style.backgroundColor = "orange";
 		} else {
 			path.setAttribute("fill-opacity","1");
+			zoomPath.setAttribute("fill-opacity","1");
 			checkbox.parentNode.style.backgroundColor = "yellow";
 		}
 
@@ -149,13 +173,16 @@
 		var checkbox = cbx.getElementById(checkboxId);
 
 		var pathId = "city_" + evtCityId;
-		var path = svg.getElementById(pathId);
+		var path = map.getElementById(pathId);
+		var zoomPath = zoom.getElementById("zoom"+pathId);
 
 		if (checkbox.checked) {
 			path.setAttribute("fill","rgb(255,50,50)");
+			zoomPath.setAttribute("fill","rgb(255,50,50)");
 			checkbox.parentNode.style.backgroundColor = "rgb(255,50,50)";
 		} else {
 			path.setAttribute("fill-opacity","0");
+			zoomPath.setAttribute("fill-opacity","0");
 			checkbox.parentNode.style.backgroundColor = "transparent";
 		}
 	}
@@ -172,7 +199,7 @@
 	}
 //	function getVisitedAreaRatio() {
 //		var TOTAL_AREA = 99959.63;
-//		var svgCityList = svg.getElementById("cities").getElementsByTagName("path");
+//		var svgCityList = map.getElementById("cities").getElementsByTagName("path");
 //		var areaSum = 0;
 //		for (var i = 0; i < svgCityList.length; i++) {
 //			if (svgCityList[i].getAttribute("choosen") == "true") {
