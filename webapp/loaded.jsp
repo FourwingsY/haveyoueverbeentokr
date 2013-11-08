@@ -56,6 +56,7 @@
 	</div>
 	<div class="wrapper">
 		<object id="map" type="image/svg+xml" data="/images/map.svg" ></object>
+		<object id="zoom" type="image/svg+xml" data="/images/zoom.svg" ></object>
 		<object id="checkboxlist" type="text/html" data="/checkbox.html" ></object>
 	</div>
 </body>

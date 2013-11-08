@@ -188,14 +188,58 @@
 	}
 	
 	function setButtonsOption() {
+		cbx.getElementById("submit").onclick = submit;
 		cbx.getElementById("load").onclick = reload;
 		cbx.getElementById("reset").onclick = reset;
+		cbx.getElementById("zoom").onclick = onOffToggle;
+	}
+	function submit(evt) {
+		evt.preventDefault(); // prevent submit auto-send 
+		
+		var eleForm = evt.currentTarget.form; //form element 
+		var oFormData = new FormData(eleForm);
+		
+		var request = new XMLHttpRequest();
+		request.open("POST", eleForm.action, true);
+		request.send(oFormData);
+		
+		request.onreadystatechange = function() {
+			if(request.readyState ==4 && request.status ==200) {
+				saveMessage();
+			}
+		}
+	}
+	function saveMessage() {
+		var msg = document.createElement('div');
+		msg.id = 'savemsg';
+		msg.className = 'msg';
+		document.getElementsByTagName('body')[0].appendChild(msg);
+		msg.innerHTML += "saved well";
+
+		cbx.getElementById("submit").disabled = true;
+		setTimeout(function(){deleteMsg(msg);}, 2500);
+	}
+	function deleteMsg(msgElement) {
+		msgElement.parentNode.removeChild(msgElement);
+		cbx.getElementById("submit").disabled = false;
 	}
 	function reload() {
 		window.location.href="/load";
 	}
 	function reset() {
 		window.location.href="/";
+	}
+	function onOffToggle(evt) {
+		var toggle_btn = evt.target;
+		var cur_status = toggle_btn.className;
+
+		if (cur_status == "button") {
+			toggle_btn.className = "button toggle_on";
+			document.getElementById("zoom").style.visibility = "visible";
+		} else {
+			toggle_btn.className = "button";
+			document.getElementById("zoom").style.visibility = "hidden";
+		}
 	}
 //	function getVisitedAreaRatio() {
 //		var TOTAL_AREA = 99959.63;

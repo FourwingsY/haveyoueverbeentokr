@@ -14,11 +14,6 @@
 				<li id="cat_${region.id}" choosen=false>${region.name }</li>
 			</c:forEach>
 		</ul>
-		<div>
-			<input type="submit" id="submit" class="button" form="cb_form" value="저장" />
-			<button id="load" class="button">불러오기</button>
-			<button id="reset" class="button">초기화</button>
-		</div>
 	</div>
 		
 	<form id="cb_form" action="/save" method="post">
@@ -33,28 +28,14 @@
 		</div>
 	</form>
 	
+	<div id="buttons" class="buttons">
+		<input type="submit" id="submit" class="button" form="cb_form" value="저장" />
+		<button id="load" class="button">불러오기</button>
+		<button id="reset" class="button">초기화</button>
+		<button id="zoom" class="button toggle_on">확대</button>
+	</div>
+
 	<script>
-		var formList = document.querySelectorAll('input[type=submit]');
-		for (var i=0; i<formList.length; i++) {
-			formList[i].addEventListener('click', submit, false);
-		}	
-		
-		function submit(evt) {
-			evt.preventDefault(); // prevent submit auto-send 
-			
-			var eleForm = evt.currentTarget.form; //form element 
-			var oFormData = new FormData(eleForm);
-			
-			var request = new XMLHttpRequest();
-			request.open("POST", eleForm.action, true);
-			request.send(oFormData);
-			
-			request.onreadystatechange = function() {
-		         if(request.readyState ==4 && request.status ==200) {
-					alert("Saved well");
-		         }
-			}
-		}
 		
 	</script>
 </body>
