@@ -65,7 +65,7 @@
 		for (var i=0 ; i<cbxCategoryList.length; i++) {
 			cbxCategoryList[i].style.backgroundColor = "transparent";
 		}
-
+		
 		svgRegionInit();
 	}
 	function svgRegionInit() {
